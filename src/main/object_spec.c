@@ -18,6 +18,9 @@
 #include <aerospike/as_vector.h>
 #include <citrusleaf/alloc.h>
 
+#include <aerospike/as_msgpack.h>
+#include <aerospike/as_serializer.h>
+
 #ifdef _TEST
 // include libcheck so we can ck_assert in the validation methods below
 #include <check.h>
@@ -1209,6 +1212,8 @@ _gen_random_list(const struct bin_spec_s* bin_spec, as_random* random,
 	return (as_val*) list;
 }
 
+bool g_cdt_blobs = false;
+
 LOCAL_HELPER as_val*
 _gen_random_map(const struct bin_spec_s* bin_spec, as_random* random,
 		float compression_ratio)
@@ -1232,6 +1237,25 @@ _gen_random_map(const struct bin_spec_s* bin_spec, as_random* random,
 				compression_ratio);
 
 		as_hashmap_set(map, key, val);
+	}
+
+	if (g_cdt_blobs) {
+		as_serializer* s = as_msgpack_new();
+		as_buffer buffer;
+
+		as_buffer_init(&buffer);
+		as_serializer_serialize(s, (as_val*) map, &buffer);
+
+		as_bytes* bytes = as_bytes_new(buffer.size);
+
+		as_bytes_set_type(bytes, AS_BYTES_BLOB);
+		as_bytes_append(bytes, buffer.data, buffer.size);
+
+		as_buffer_destroy(&buffer);
+		as_serializer_destroy(s);
+		as_hashmap_destroy(map);
+
+		return (as_val*) bytes;
 	}
 
 	return (as_val*) map;

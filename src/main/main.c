@@ -103,6 +103,7 @@ static struct option long_options[] = {
 	{"tlsCertFile",          required_argument, 0, 'y'},
 	{"tlsLoginOnly",         no_argument,       0, 'f'},
 	{"auth",                 required_argument, 0, 'e'},
+	{"cdtBlob",              no_argument, 0, 'b'},
 	{0, 0, 0, 0}
 };
 
@@ -775,6 +776,8 @@ get_or_init_stage(args_t* args)
 	return &args->stage_defs.stages[0];
 }
 
+extern bool g_cdt_blobs;
+
 LOCAL_HELPER int
 set_args(int argc, char * const* argv, args_t* args)
 {
@@ -784,6 +787,10 @@ set_args(int argc, char * const* argv, args_t* args)
 	while ((c = getopt_long(argc, argv, short_options, long_options,
 					&option_index)) != -1) {
 		switch (c) {
+			case 'b':
+				g_cdt_blobs = true;
+				break;
+
 			case '9':
 				print_usage(argv[0]);
 				return -1;
