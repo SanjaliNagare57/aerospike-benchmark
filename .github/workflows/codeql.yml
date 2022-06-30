@@ -52,6 +52,7 @@ jobs:
         # Details on CodeQL's query packs refer to : https://docs.github.com/en/code-security/code-scanning/automatically-scanning-your-code-for-vulnerabilities-and-errors/configuring-code-scanning#using-queries-in-ql-packs
         # queries: security-extended,security-and-quality
     - if: matrix.language == 'cpp' 
+    - run: |
        ./aerospike-benchmark/.github/workflows/benchmark-build.yml
 
     - if: matrix.language == 'python'
