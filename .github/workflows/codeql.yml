@@ -54,7 +54,7 @@ jobs:
     - if: matrix.language == 'cpp' 
       name: Build cpp
       run: |
-        make [EVENT_LIB=libev|libuv|libevent]
+        make EVENT_LIB=<libuv/libev/libevent>
         dotnet build -p:UseSharedCompilation=false --configuration Release
 
     - if: matrix.language == 'python'
