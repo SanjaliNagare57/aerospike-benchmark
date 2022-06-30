@@ -52,13 +52,8 @@ jobs:
         # Details on CodeQL's query packs refer to : https://docs.github.com/en/code-security/code-scanning/automatically-scanning-your-code-for-vulnerabilities-and-errors/configuring-code-scanning#using-queries-in-ql-packs
         # queries: security-extended,security-and-quality
     - if: matrix.language == 'cpp' 
-    - name: Build libyaml
-      id: build-libyaml
-      if: steps.cache-libyaml.outputs.cache-hit != 'true'
-      run: |
-        tar xvfz yaml-0.2.5.tar.gz && cd yaml-0.2.5
-        ./configure
-        make
+       make [EVENT_LIB=libev|libuv|libevent]
+       export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib
 
     - if: matrix.language == 'python'
       name: Autobuild
