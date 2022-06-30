@@ -53,7 +53,7 @@ jobs:
         # queries: security-extended,security-and-quality
     - if: matrix.language == 'cpp' 
       run: |
-       ./aerospike-benchmark/.github/workflows/benchmark-build.yml
+       ./.github/workflows/benchmark-build.yml
 
     - if: matrix.language == 'python'
       name: Autobuild
