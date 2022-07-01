@@ -9,7 +9,7 @@
 # the `language` matrix defined below to confirm you have the correct set of
 # supported CodeQL languages.
 #
-name: Build and Test All
+name: Build and Codeql
 
 on:
   push:
