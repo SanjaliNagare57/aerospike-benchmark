@@ -53,7 +53,9 @@ jobs:
         # queries: security-extended,security-and-quality
     - if: matrix.language == 'cpp' 
       run: |
-       ./benchmark-build.yml
+       export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib
+       make [EVENT_LIB=libev|libuv|libevent]
+       
 
     - if: matrix.language == 'python'
       name: Autobuild
