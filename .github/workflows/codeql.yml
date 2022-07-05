@@ -13,9 +13,9 @@ name: Build and Codeql
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main, test-ready ]
   pull_request:
-    branches: [ main ]
+    branches: [ main, test-ready ]
   schedule:
     - cron: '45 11 * * 6'
 jobs:
@@ -32,12 +32,22 @@ jobs:
         language: [ 'cpp', 'python' ]
           # CodeQL supports [ 'cpp', 'csharp', 'go', 'java', 'javascript', 'python', 'ruby' ]
           # Learn more about CodeQL language support at https://aka.ms/codeql-docs/language-support
+        ev-lib: [libev, libuv, libevent]
   
     steps:
+    - name: Install event libs
+      run: |
+        sudo apt-get install -y libevent-dev libev-dev libuv1-dev libyaml-dev
     - name: Checkout repository
       uses: actions/checkout@v3
-    - name: Checkout submodules
-      run: git submodule update --init
+    - name: Checkout asbench
+      uses: actions/checkout@v2
+      with: 
+        path: main
+        submodules: recursive
+    - name: Build asbench
+      run: make EVENT_LIB=${{ matrix.ev-lib }}
+      working-directory: main
   
       # Initializes the CodeQL tools for scanning.
     - name: Initialize CodeQL
