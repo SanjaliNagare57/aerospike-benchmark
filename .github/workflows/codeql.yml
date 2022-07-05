@@ -93,6 +93,7 @@ jobs:
         repository: aerospike/aerospike-client-c
         submodules: recursive
         path: client
+        ref: 6.0.0
     - name: Checkout benchmark 
       uses: actions/checkout@v2
       with: 
