@@ -62,9 +62,7 @@ jobs:
           # queries: security-extended,security-and-quality
     - if: matrix.language == 'cpp' 
       name: Build Cpp 
-      run: |
-        export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib
-         make [EVENT_LIB=libev|libuv|libevent]
+      run: make
          
   
     - if: matrix.language == 'python'
