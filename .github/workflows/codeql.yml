@@ -59,8 +59,9 @@ jobs:
 
     - name: Build benchmark
       run: |
-       make EVENT_LIB=${{ matrix.ev-lib }}
        target/benchmark --workload RU,50 --duration 30
+       make EVENT_LIB=${{ matrix.ev-lib }}
+       
     # Autobuild attempts to build any compiled languages  (C/C++, C#, or Java).
     # If this step fails, then you should remove it and run the build manually (see below)
     - name: Build Cpp
